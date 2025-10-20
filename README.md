@@ -13,7 +13,7 @@ A simple desktop application built with **PySide6** that generates random employ
 - Choose where to save the Excel file
 - Simple, modern PySide6 GUI — no command line needed
 
-### UI
+### Employee Data Generator UI
 
 <img width="502" height="332" alt="image" src="https://github.com/user-attachments/assets/8f995f41-dd8e-4124-a1dc-f8cd74f62eb5" />
 
