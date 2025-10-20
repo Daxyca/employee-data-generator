@@ -271,11 +271,57 @@ class EmployeeGeneratorApp(QMainWindow):
         self._style_message_label(color)
 
 
+def apply_preset_styles(app):
+    app.setStyle("Fusion")
+    app.setStyleSheet("""
+        QMainWindow {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        QLabel {
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+
+        QLineEdit {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            padding: 6px;
+        }
+
+        QPushButton {
+            background-color: #0078d7;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-weight: bold;
+        }
+
+        QPushButton:hover {
+            background-color: #1a8cff;
+        }
+
+        QPushButton:disabled {
+            background-color: #3a3a3a;
+            color: #777;
+        }
+
+        QMessageBox {
+            background-color: #2c2c2c;
+            color: #ffffff;
+        }
+    """)
+
+
 # -------------------------------------------------------------------------
 # ENTRY POINT
 # -------------------------------------------------------------------------
 def main():
     app = QApplication(sys.argv)
+    apply_preset_styles(app)
     window = EmployeeGeneratorApp()
     window.show()
     sys.exit(app.exec())
