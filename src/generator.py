@@ -16,7 +16,7 @@ def create_employee_data(count: int) -> pd.DataFrame:
     employees: list[dict[str, str | int]] = [
         {
             "Employee ID": i + 1,
-            "Full Name": f"{fake.first_name()} {fake.last_name()}",
+            "Full Name": f"{fake.full_name()}",
             "Department": random.choice(DEPARTMENTS),
             "Salary": random.randint(25_000, 120_000),
             "Hire Date": (
