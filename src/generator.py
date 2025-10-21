@@ -1,84 +1,7 @@
 import random
 from datetime import datetime, timedelta
 import pandas as pd
-
-# --- Constants ---
-FIRST_NAMES = [
-    "James",
-    "Mary",
-    "John",
-    "Patricia",
-    "Robert",
-    "Jennifer",
-    "Michael",
-    "Linda",
-    "William",
-    "Barbara",
-    "David",
-    "Elizabeth",
-    "Richard",
-    "Susan",
-    "Joseph",
-    "Jessica",
-    "Thomas",
-    "Sarah",
-    "Charles",
-    "Karen",
-    "Christopher",
-    "Nancy",
-    "Daniel",
-    "Lisa",
-    "Matthew",
-    "Betty",
-    "Anthony",
-    "Margaret",
-    "Mark",
-    "Sandra",
-    "Donald",
-    "Ashley",
-    "Steven",
-    "Kimberly",
-    "Paul",
-    "Emily",
-    "Andrew",
-    "Donna",
-    "Joshua",
-    "Michelle",
-]
-
-LAST_NAMES = [
-    "Smith",
-    "Johnson",
-    "Williams",
-    "Brown",
-    "Jones",
-    "Garcia",
-    "Miller",
-    "Davis",
-    "Rodriguez",
-    "Martinez",
-    "Hernandez",
-    "Lopez",
-    "Gonzalez",
-    "Wilson",
-    "Anderson",
-    "Thomas",
-    "Taylor",
-    "Moore",
-    "Jackson",
-    "Martin",
-    "Lee",
-    "Thompson",
-    "White",
-    "Harris",
-    "Sanchez",
-    "Clark",
-    "Ramirez",
-    "Lewis",
-    "Robinson",
-    "Walker",
-    "Young",
-]
+from faker import Faker
 
 DEPARTMENTS = ["IT", "HR", "Operations", "Administration", "Finance"]
 
@@ -89,10 +12,11 @@ def create_employee_data(count: int) -> pd.DataFrame:
     end_date = datetime.now()
     date_range = (end_date - start_date).days
 
-    employees = [
+    fake = Faker()
+    employees: list[dict[str, str | int]] = [
         {
             "Employee ID": i + 1,
-            "Full Name": f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}",
+            "Full Name": f"{fake.full_name()}",
             "Department": random.choice(DEPARTMENTS),
             "Salary": random.randint(25_000, 120_000),
             "Hire Date": (

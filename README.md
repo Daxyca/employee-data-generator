@@ -25,6 +25,7 @@ A simple desktop application built with **PySide6** that generates random employ
 | **PySide6 (Qt for Python)** | GUI framework                    |
 | **Pandas**                  | Data manipulation & Excel export |
 | **OpenPyXL**                | Excel writing backend for Pandas |
+| **Faker**                   | Realistic random data generator  |
 
 ## Installation
 
