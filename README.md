@@ -105,7 +105,7 @@ employee-data-generator/
 ├─ LICENSE               # MIT License
 ├─ README.md             # Project documentation
 ├─ requirements.txt      # Dependencies
-└─ employees.xlsx       # Generated after export
+└─ employees.xlsx        # Generated after export
 ```
 
 ## Customization Tips
