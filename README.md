@@ -53,7 +53,7 @@ pip install -r requirements.txt
 Run the application with:
 
 ```bash
-python main.py
+python -m src.app
 ```
 
 Then:
@@ -94,8 +94,11 @@ The exported file will contain:
 
 ```
 employee-data-generator/
-│
-├── main.py                     # Main PySide6 application
+└── src/
+    ├── app.py                  # Launch entry point
+    ├── ui.py                   # Handles PySide6 widgets and layout
+    ├── generator.py            # Generates synthetic data (pure logic)
+    └── exporter.py             # Handles Excel writing (pure logic)
 ├── requirements.txt            # Dependencies
 ├── README.md                   # Project documentation
 ├── LICENSE                     # MIT License

@@ -1,9 +1,4 @@
-import sys
-import random
-from datetime import datetime, timedelta
 from pathlib import Path
-
-import pandas as pd
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -17,87 +12,10 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 from PySide6.QtCore import Qt
+import pandas as pd
 
-
-# --- Constants ---
-FIRST_NAMES = [
-    "James",
-    "Mary",
-    "John",
-    "Patricia",
-    "Robert",
-    "Jennifer",
-    "Michael",
-    "Linda",
-    "William",
-    "Barbara",
-    "David",
-    "Elizabeth",
-    "Richard",
-    "Susan",
-    "Joseph",
-    "Jessica",
-    "Thomas",
-    "Sarah",
-    "Charles",
-    "Karen",
-    "Christopher",
-    "Nancy",
-    "Daniel",
-    "Lisa",
-    "Matthew",
-    "Betty",
-    "Anthony",
-    "Margaret",
-    "Mark",
-    "Sandra",
-    "Donald",
-    "Ashley",
-    "Steven",
-    "Kimberly",
-    "Paul",
-    "Emily",
-    "Andrew",
-    "Donna",
-    "Joshua",
-    "Michelle",
-]
-
-LAST_NAMES = [
-    "Smith",
-    "Johnson",
-    "Williams",
-    "Brown",
-    "Jones",
-    "Garcia",
-    "Miller",
-    "Davis",
-    "Rodriguez",
-    "Martinez",
-    "Hernandez",
-    "Lopez",
-    "Gonzalez",
-    "Wilson",
-    "Anderson",
-    "Thomas",
-    "Taylor",
-    "Moore",
-    "Jackson",
-    "Martin",
-    "Lee",
-    "Thompson",
-    "White",
-    "Harris",
-    "Sanchez",
-    "Clark",
-    "Ramirez",
-    "Lewis",
-    "Robinson",
-    "Walker",
-    "Young",
-]
-
-DEPARTMENTS = ["IT", "HR", "Operations", "Administration", "Finance"]
+from .exporter import write_employees_excel_file
+from .generator import create_employee_data
 
 
 class EmployeeGeneratorApp(QMainWindow):
@@ -186,7 +104,7 @@ class EmployeeGeneratorApp(QMainWindow):
             if num_employees <= 0:
                 raise ValueError
 
-            self.employee_data = self._create_employee_data(num_employees)
+            self.employee_data = create_employee_data(num_employees)
             self.export_button.setEnabled(True)
             self._update_message(
                 f"Generated {num_employees} employee records", color="blue"
@@ -211,7 +129,7 @@ class EmployeeGeneratorApp(QMainWindow):
         file_path = Path(self.selected_folder) / "employees.xlsx"
 
         try:
-            self._write_excel_file(file_path)
+            write_employees_excel_file(self.employee_data, file_path)
             self._update_message("File generated successfully!", color="green")
             QMessageBox.information(self, "Success", f"File saved at:\n{file_path}")
         except Exception as e:
@@ -221,57 +139,15 @@ class EmployeeGeneratorApp(QMainWindow):
             self.message_label.clear()
 
     # -------------------------------------------------------------------------
-    # CORE LOGIC
+    # UPDATE LOGIC
     # -------------------------------------------------------------------------
-    def _create_employee_data(self, count: int) -> pd.DataFrame:
-        """Generate a DataFrame with random employee data."""
-        start_date = datetime(2020, 1, 1)
-        end_date = datetime.now()
-        date_range = (end_date - start_date).days
-
-        employees = [
-            {
-                "Employee ID": i + 1,
-                "Full Name": f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}",
-                "Department": random.choice(DEPARTMENTS),
-                "Salary": random.randint(25_000, 120_000),
-                "Hire Date": (
-                    start_date + timedelta(days=random.randint(0, date_range))
-                ).strftime("%Y/%m/%d"),
-            }
-            for i in range(count)
-        ]
-
-        return pd.DataFrame(employees)
-
-    def _write_excel_file(self, path: Path) -> None:
-        """Write the main data and summary to an Excel file."""
-        summary = (
-            self.employee_data.groupby("Department")["Salary"]
-            .mean()
-            .reset_index()
-            .rename(columns={"Salary": "Average Salary"})
-        )
-        summary["Average Salary"] = summary["Average Salary"].round(2)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        with pd.ExcelWriter(path, engine="openpyxl") as writer:
-            self.employee_data.to_excel(writer, sheet_name="Employees", index=False)
-            summary.to_excel(writer, sheet_name="Summary", index=False)
-
-            summary_sheet = writer.sheets["Summary"]
-            row = len(summary) + 3
-            summary_sheet.cell(row=row, column=1, value="Export Timestamp:")
-            summary_sheet.cell(row=row, column=2, value=timestamp)
-
     def _update_message(self, text: str, color: str = "green") -> None:
         """Update the message label with styled feedback."""
         self.message_label.setText(text)
         self._style_message_label(color)
 
 
-def apply_preset_styles(app):
+def apply_preset_styles(app: QApplication) -> None:
     app.setStyle("Fusion")
     app.setStyleSheet("""
         QMainWindow {
@@ -314,18 +190,3 @@ def apply_preset_styles(app):
             color: #ffffff;
         }
     """)
-
-
-# -------------------------------------------------------------------------
-# ENTRY POINT
-# -------------------------------------------------------------------------
-def main():
-    app = QApplication(sys.argv)
-    apply_preset_styles(app)
-    window = EmployeeGeneratorApp()
-    window.show()
-    sys.exit(app.exec())
-
-
-if __name__ == "__main__":
-    main()
