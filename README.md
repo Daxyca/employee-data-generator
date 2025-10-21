@@ -94,15 +94,18 @@ The exported file will contain:
 
 ```
 employee-data-generator/
-└── src/
-    ├── app.py                  # Launch entry point
-    ├── ui.py                   # Handles PySide6 widgets and layout
-    ├── generator.py            # Generates synthetic data (pure logic)
-    └── exporter.py             # Handles Excel writing (pure logic)
-├── requirements.txt            # Dependencies
-├── README.md                   # Project documentation
-├── LICENSE                     # MIT License
-└── employees.xlsx              # Generated after export
+├─ src
+│  ├─ app.py             # Launch entry point
+│  ├─ exporter.py        # Handles Excel writing (pure logic)
+│  ├─ generator.py       # Generates synthetic data (pure logic)
+│  └─ ui.py              # Handles PySide6 widgets and layout
+├─ tests
+│  ├─ test_exporter.py
+│  └─ test_generator.py
+├─ LICENSE               # MIT License
+├─ README.md             # Project documentation
+├─ requirements.txt      # Dependencies
+└─ employees.xlsx       # Generated after export
 ```
 
 ## Customization Tips
@@ -110,7 +113,7 @@ employee-data-generator/
 You can easily:
 
 - Add more **departments** or **names** in the constant lists.
-- Adjust salary ranges in `_create_employee_data()`.
+- Adjust salary ranges in `create_employee_data()`.
 - Change the export filename or Excel sheet names.
 - Add filters, sorting.
 
