@@ -3,7 +3,7 @@ from pathlib import Path
 from src.exporter import write_employees_excel_file
 
 
-def test_export_creates_file(tmp_path):
+def test_export_creates_file(tmp_path: Path):
     # Create fake employee data
     df = pd.DataFrame(
         [
