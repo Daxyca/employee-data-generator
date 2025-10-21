@@ -70,6 +70,14 @@ The exported file will contain:
   - **Employees** – full employee dataset
   - **Summary** – department-level salary averages with timestamp
 
+## Testing
+
+To run unit tests:
+
+```bash
+pytest -v
+```
+
 ## Example Output
 
 **Employees Sheet**
